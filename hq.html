@@ -9,68 +9,63 @@
 <body>
     <div id="app-container">
         <header class="top-bar">
-            <div class="brand-info">
-                <span id="phase-tag" class="tag blue">FOUNDATION</span>
+            <div class="brand">
                 <span id="player-rank-title">Node Builder</span>
+                <div class="sub-label"><span id="phase-tag">FOUNDATION</span> | Cycle <span id="cycle-display">1</span></div>
             </div>
-            <div class="currency-display"><span id="tnb-balance">0.00</span> TNB</div>
+            <div class="wallet-display">
+                <span id="tnb-balance">0.00</span> <small>TNB</small>
+            </div>
         </header>
 
         <main id="dispatch-screen">
-            <div id="weather-alert" class="alert-bar" style="display:none;">⛈️ WEATHER DELAY ACTIVE (+30s)</div>
-            
-            <div class="minigame-container" id="minigame-area" style="display:none;">
-                <div class="minigame-header">NODE SUPPLY SYNC: Catch Fragments!</div>
-                <div id="game-canvas"></div>
-                <div class="minigame-stats">Fragments: <span id="frag-count">0</span>/10</div>
-            </div>
-
-            <div class="gen-list">
-                <div class="card gen-card" id="gen-green">
-                    <div class="card-header">
-                        <div class="indicator green"></div>
-                        <h3>GREEN_GENERATOR</h3>
-                    </div>
-                    <p class="status-text" id="green-status">STATUS: IDLE</p>
-                    <div id="bot-tag" class="bot-badge" style="display:none;">🤖 BOT ASSIGNED</div>
-                    <button class="action-btn" id="green-btn" onclick="startProject('green')">START BUILD</button>
-                    <button class="action-btn sync-btn" id="sync-btn" style="display:none;" onclick="toggleMinigame()">SYNC SUPPLY CHAIN</button>
+            <div class="card gen-card">
+                <div class="gen-header">
+                    <h3>GREEN_GENERATOR</h3>
+                    <span id="green-status" class="status-badge">IDLE</span>
                 </div>
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-fill"></div>
+                </div>
+                <button class="action-btn" id="green-btn" onclick="startProject()">START BUILD</button>
+                <button class="action-btn sync-btn" id="sync-btn" style="display:none;" onclick="toggleMinigame()">⚡ OVERCLOCK</button>
+            </div>
+
+            <div id="minigame-area" style="display:none;" class="card">
+                <p>Catch 10 fragments to speed up build!</p>
+                <div id="game-canvas"></div>
+                <p>Fragments: <span id="frag-count">0</span>/10</p>
             </div>
         </main>
 
-        <main id="dashboard-screen" style="display: none;">
-            <div class="card profile-card">
-                <h3>OPERATOR PROFILE</h3>
-                <div class="stat-row"><span>Projects:</span> <span id="dash-projects">0</span></div>
-                <div class="stat-row"><span>Cycle:</span> <span id="dash-cycle">1</span></div>
-                <div class="stat-row"><span>Manual Progress:</span> <span id="manual-done">0</span>/<span id="manual-req">0</span></div>
-                <button class="action-btn secondary" onclick="location.href='playbook.html'">READ PLAYBOOK</button>
-            </div>
-        </main>
-
-        <main id="market-screen" style="display: none;">
+        <main id="profile-screen" style="display: none;">
             <div class="card">
-                <h3>MARKET</h3>
-                <button class="action-btn" onclick="hireBot()">HIRE BOT (100 TNB)</button>
+                <h3>OPERATOR STATS</h3>
+                <div class="stat-row"><span>Lifetime Projects:</span> <b id="dash-projects">0</b></div>
+                <div class="stat-row"><span>Manual Progress:</span> <b id="manual-done">0</b>/<b id="manual-req">0</b></div>
+            </div>
+            <div class="card wallet-card">
+                <h3>PAYOUT WALLET</h3>
+                <p id="wallet-display-text">Not Linked</p>
+                <button class="action-btn secondary" onclick="linkWallet()">LINK BASE WALLET</button>
             </div>
         </main>
 
         <main id="ceo-screen" style="display: none;">
-            <div class="card vault-card">
-                <h3>CEO_VAULT</h3>
-                <div class="vault-value"><span id="ceo-treasury">0.00</span> <small>TNB</small></div>
-                <p>Locked 95/5 Split Protocol</p>
+            <div class="card gold-card">
+                <h3>CEO TREASURY</h3>
+                <div class="vault-value"><span id="ceo-treasury">0.00</span> TNB</div>
+                <p>Locked 5% Network Cut</p>
             </div>
         </main>
 
         <nav class="bottom-nav">
-            <button class="nav-item" onclick="switchTab('dashboard', this)">PROFILE</button>
             <button class="nav-item active" onclick="switchTab('dispatch', this)">DISPATCH</button>
-            <button class="nav-item" onclick="switchTab('market', this)">MARKET</button>
+            <button class="nav-item" onclick="switchTab('profile', this)">PROFILE</button>
             <button class="nav-item" id="ceo-nav-btn" style="display:none;" onclick="switchTab('ceo', this)">CEO</button>
         </nav>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
