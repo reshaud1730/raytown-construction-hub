@@ -2,23 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Construction | Gateway</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Raytown Construction | Terminal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="full-screen-center">
     <div class="login-wrapper">
-        <h1 class="brand-title">RAYTOWN CONSTRUCTION</h1>
-        <p class="brand-subtitle">FastTrack Node Terminal (Base Network)</p>
+        <h1 class="brand-title">RAYTOWN HQ</h1>
+        <p class="brand-subtitle">Operator Authentication</p>
         
-        <div id="setup-fields" style="display: none;">
-            <input type="text" id="upland-ign" placeholder="Enter Upland IGN">
-            <button class="action-btn" id="initialize-btn" onclick="enterHQ()">INITIALIZE HQ</button>
+        <div class="input-group">
+            <input type="text" id="upland-ign" placeholder="Upland IGN" required>
+            <input type="email" id="operator-email" placeholder="Email Address" required>
         </div>
-
-        <div id="connect-zone">
-            <button id="connect-wallet-btn" class="action-btn connect-btn" onclick="connectWallet()">CONNECT WALLET</button>
-        </div>
+        
+        <button class="action-btn" id="login-btn" onclick="enterHQ()">INITIALIZE SESSION</button>
+        <p class="footer-note">Raytown Network © 2026</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -27,47 +26,30 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqYnd1Z2VqamxpZXFxdWZtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDExOTIsImV4cCI6MjA5MjUxNzE5Mn0.KZ0L2ds7egV2hksbNpU4bA-oCjRTsJYVOy4vlbZq3M8';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        async function connectWallet() {
-            if (window.ethereum) {
-                try {
-                    // Connects to Uniswap/Base or any injected wallet
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
-                    
-                    // Request switch to Base Network (Chain ID 8453)
-                    try {
-                        await window.ethereum.request({
-                            method: 'wallet_switchEthereumChain',
-                            params: [{ chainId: '0x2105' }], 
-                        });
-                    } catch (e) { console.log("Network switch prompt skipped."); }
-
-                    document.getElementById('connect-zone').style.display = 'none';
-                    document.getElementById('setup-fields').style.display = 'block';
-                } catch (err) { alert("Connection Error: " + err.message); }
-            } else { 
-                alert("Please open this link in the Uniswap App Browser."); 
-            }
-        }
-
         async function enterHQ() {
-            const ign = document.getElementById('upland-ign').value;
-            const wallet = localStorage.getItem('fasttrack_operator_wallet');
-            const btn = document.getElementById('initialize-btn');
+            const ign = document.getElementById('upland-ign').value.trim();
+            const email = document.getElementById('operator-email').value.trim();
+            const btn = document.getElementById('login-btn');
 
-            if (!ign) return alert("IGN Required");
-            btn.innerText = "SYNCING...";
+            if (!ign || !email) return alert("IGN and Email required.");
+
+            btn.innerText = "AUTHENTICATING...";
+            btn.disabled = true;
+
+            localStorage.setItem('raytown_ign', ign);
+            localStorage.setItem('raytown_email', email);
 
             const { error } = await supabase.from('operators').upsert({ 
-                wallet: wallet, 
-                upland_ign: ign 
-            });
+                upland_ign: ign, 
+                email: email 
+            }, { onConflict: 'upland_ign' });
 
             if (error) {
-                alert("Supabase Error: " + error.message);
-                btn.innerText = "INITIALIZE HQ";
+                alert("Vault Error: " + error.message);
+                btn.innerText = "INITIALIZE SESSION";
+                btn.disabled = false;
             } else {
-                window.location.href = 'hq.html'; 
+                window.location.href = 'hq.html';
             }
         }
     </script>
