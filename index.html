@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Construction | Gateway</title>
+    <title>Raytown Network | Entry</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="gateway-body">
@@ -15,7 +15,7 @@
             <div class="divider"></div>
             
             <div id="setup-fields" style="display: none;">
-                <input type="text" id="upland-ign" placeholder="ENTER OPERATOR IGN...">
+                <input type="text" id="upland-ign" placeholder="ENTER OPERATOR UPLAND IGN...">
                 <button class="action-btn glow-btn" onclick="enterHQ()">INITIALIZE HQ</button>
             </div>
 
@@ -37,7 +37,7 @@
                 localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
                 document.getElementById('connect-zone').style.display = 'none';
                 document.getElementById('setup-fields').style.display = 'block';
-            } else { alert("Please use MetaMask or Coinbase Wallet."); }
+            } else { alert("MetaMask or Coinbase Wallet required."); }
         }
 
         async function enterHQ() {
