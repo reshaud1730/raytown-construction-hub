@@ -3,25 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raytown Network | Entry</title>
+    <title>Raytown Construction | Gateway</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="gateway-body">
-    <div class="terminal-frame">
-        <div class="terminal-header">SECURE_AUTH // RAYTOWN_NETWORK_STABLE</div>
-        <div class="login-container">
-            <h1 class="glow-text">RAYTOWN</h1>
-            <p class="subtitle">FastTrack Node Management Terminal</p>
-            <div class="divider"></div>
-            
-            <div id="setup-fields" style="display: none;">
-                <input type="text" id="upland-ign" placeholder="ENTER OPERATOR UPLAND IGN...">
-                <button class="action-btn glow-btn" onclick="enterHQ()">INITIALIZE HQ</button>
-            </div>
+<body class="full-screen-center">
+    <div class="login-wrapper">
+        <h1 class="brand-title">RAYTOWN CONSTRUCTION</h1>
+        <p class="brand-subtitle">Node Management Terminal</p>
+        
+        <div id="setup-fields" style="display: none;">
+            <input type="text" id="upland-ign" placeholder="Enter Upland IGN">
+            <button class="action-btn" onclick="enterHQ()">INITIALIZE HQ</button>
+        </div>
 
-            <div id="connect-zone">
-                <button id="connect-wallet-btn" class="action-btn" onclick="connectWallet()">CONNECT BASE WALLET</button>
-            </div>
+        <div id="connect-zone">
+            <button id="connect-wallet-btn" class="action-btn connect-btn" onclick="connectWallet()">CONNECT BASE WALLET</button>
         </div>
     </div>
 
@@ -37,7 +33,7 @@
                 localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
                 document.getElementById('connect-zone').style.display = 'none';
                 document.getElementById('setup-fields').style.display = 'block';
-            } else { alert("MetaMask or Coinbase Wallet required."); }
+            } else { alert("Please use MetaMask or Coinbase Wallet."); }
         }
 
         async function enterHQ() {
