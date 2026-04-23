@@ -9,7 +9,7 @@
 <body class="full-screen-center">
     <div class="login-wrapper">
         <h1 class="brand-title">RAYTOWN CONSTRUCTION</h1>
-        <p class="brand-subtitle">Node Management Terminal</p>
+        <p class="brand-subtitle">FastTrack Node Terminal (Base Network)</p>
         
         <div id="setup-fields" style="display: none;">
             <input type="text" id="upland-ign" placeholder="Enter Upland IGN">
@@ -17,13 +17,12 @@
         </div>
 
         <div id="connect-zone">
-            <button id="connect-wallet-btn" class="action-btn connect-btn" onclick="connectWallet()">CONNECT BASE WALLET</button>
+            <button id="connect-wallet-btn" class="action-btn connect-btn" onclick="connectWallet()">CONNECT WALLET</button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // CLEANED URL: Removed /rest/v1/ to prevent connection errors
         const SUPABASE_URL = 'https://fjbwugejjlieqqufmiya.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqYnd1Z2VqamxpZXFxdWZtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDExOTIsImV4cCI6MjA5MjUxNzE5Mn0.KZ0L2ds7egV2hksbNpU4bA-oCjRTsJYVOy4vlbZq3M8';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -31,15 +30,23 @@
         async function connectWallet() {
             if (window.ethereum) {
                 try {
+                    // Connects to Uniswap/Base or any injected wallet
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
+                    
+                    // Request switch to Base Network (Chain ID 8453)
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0x2105' }], 
+                        });
+                    } catch (e) { console.log("Network switch prompt skipped."); }
+
                     document.getElementById('connect-zone').style.display = 'none';
                     document.getElementById('setup-fields').style.display = 'block';
-                } catch (err) {
-                    alert("Wallet connection failed: " + err.message);
-                }
+                } catch (err) { alert("Connection Error: " + err.message); }
             } else { 
-                alert("Please open this link inside the MetaMask or Coinbase Wallet App Browser."); 
+                alert("Please open this link in the Uniswap App Browser."); 
             }
         }
 
@@ -49,23 +56,18 @@
             const btn = document.getElementById('initialize-btn');
 
             if (!ign) return alert("IGN Required");
-            
-            btn.innerText = "SYNCHRONIZING...";
-            btn.disabled = true;
+            btn.innerText = "SYNCING...";
 
-            // Attempt to save operator to your new Supabase Vault
             const { error } = await supabase.from('operators').upsert({ 
                 wallet: wallet, 
                 upland_ign: ign 
             });
 
             if (error) {
-                alert("Vault Connection Error: " + error.message);
+                alert("Supabase Error: " + error.message);
                 btn.innerText = "INITIALIZE HQ";
-                btn.disabled = false;
             } else {
-                // IMPORTANT: Ensure your dashboard file is named hq.html on GitHub
-                window.location.href = 'hq.html';
+                window.location.href = 'hq.html'; 
             }
         }
     </script>
