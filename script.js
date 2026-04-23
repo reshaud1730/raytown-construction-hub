@@ -1,5 +1,5 @@
-const SUPABASE_URL = 'https://yjfprmwvzkydruxtogdg.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqZnBybXd2emt5ZHJ1eHRvZ2RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4OTg0NjAsImV4cCI6MjA5MjQ3NDQ2MH0.yLwEAiFht6i65e4AVtvEJGJSfrqUGG-MbuarRK22BsU';
+const SUPABASE_URL = 'https://fjbwugejjlieqqufmiya.supabase.co/rest/v1/';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqYnd1Z2VqamxpZXFxdWZtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDExOTIsImV4cCI6MjA5MjUxNzE5Mn0.KZ0L2ds7egV2hksbNpU4bA-oCjRTsJYVOy4vlbZq3M8';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const CEO_WALLET = "0xe46AcfE53b92010B5A9742c88278a57f00f28C25".toLowerCase();
