@@ -1,0 +1,13 @@
+:root { --bg: #0b0e14; --terminal: #121820; --accent: #f39c12; --upland: #00a8ff; --text: #e0e0e0; }
+body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+.terminal-frame { border: 2px solid #2c3e50; background: var(--terminal); padding: 30px; width: 320px; text-align: center; }
+.glow-text { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+.upland-blue-tag { background: var(--upland); color: white; padding: 2px 8px; font-size: 10px; font-weight: bold; }
+.action-btn { width: 100%; padding: 12px; background: var(--accent); border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; display: flex; height: 70px; background: var(--terminal); border-top: 1px solid #333; }
+.nav-btn { flex: 1; background: none; color: #555; border: none; font-size: 10px; font-weight: bold; }
+.nav-btn.active { color: var(--upland); }
+.gen-card { background: var(--terminal); margin: 15px; padding: 20px; border: 1px solid #333; border-radius: 8px; position: relative; }
+.xp-container { background: #333; height: 4px; margin: 10px 0; }
+.xp-bar { background: #2ecc71; height: 100%; }
+input[type="text"] { width: 90%; padding: 10px; background: #000; border: 1px solid #333; color: white; margin-bottom: 10px; }
