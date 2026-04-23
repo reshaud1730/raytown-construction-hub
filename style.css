@@ -1,13 +1,27 @@
-:root { --bg: #0b0e14; --terminal: #121820; --accent: #f39c12; --upland: #00a8ff; --text: #e0e0e0; }
-body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
-.terminal-frame { border: 2px solid #2c3e50; background: var(--terminal); padding: 30px; width: 320px; text-align: center; }
-.glow-text { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-.upland-blue-tag { background: var(--upland); color: white; padding: 2px 8px; font-size: 10px; font-weight: bold; }
-.action-btn { width: 100%; padding: 12px; background: var(--accent); border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
-.bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 450px; display: flex; height: 70px; background: var(--terminal); border-top: 1px solid #333; }
-.nav-btn { flex: 1; background: none; color: #555; border: none; font-size: 10px; font-weight: bold; }
-.nav-btn.active { color: var(--upland); }
-.gen-card { background: var(--terminal); margin: 15px; padding: 20px; border: 1px solid #333; border-radius: 8px; position: relative; }
-.xp-container { background: #333; height: 4px; margin: 10px 0; }
-.xp-bar { background: #2ecc71; height: 100%; }
-input[type="text"] { width: 90%; padding: 10px; background: #000; border: 1px solid #333; color: white; margin-bottom: 10px; }
+:root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --accent: #f39c12;
+    --upland: #00a8ff;
+    --green: #2ecc71;
+    --text: #c9d1d9;
+    --border: #30363d;
+}
+body { background: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+#app-container { width: 100vw; min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 90px; }
+.top-bar { background: var(--card); padding: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.tag { font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
+.tag.blue { background: var(--upland); color: white; }
+.card { background: var(--card); margin: 15px; padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
+.action-btn { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+.secondary { background: #30363d; color: white; margin-top: 10px; }
+.sync-btn { background: var(--upland); color: white; }
+.minigame-container { background: #000; margin: 15px; padding: 15px; border-radius: 12px; border: 2px solid var(--upland); height: 220px; position: relative; }
+.minigame-header { font-size: 10px; color: var(--upland); text-align: center; }
+#game-canvas { width: 100%; height: 160px; position: relative; }
+.fragment { width: 25px; height: 25px; background: var(--green); position: absolute; border-radius: 6px; box-shadow: 0 0 10px var(--green); cursor: pointer; }
+.bottom-nav { position: fixed; bottom: 0; width: 100%; height: 75px; background: var(--card); display: flex; border-top: 1px solid var(--border); }
+.nav-item { flex: 1; background: none; border: none; color: #8b949e; font-size: 11px; font-weight: bold; }
+.nav-item.active { color: var(--upland); }
+.full-screen-center { display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; }
+input[type="text"] { width: 80%; padding: 12px; background: #000; border: 1px solid var(--border); color: white; border-radius: 8px; margin-bottom: 15px; }
