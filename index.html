@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raytown Construction | Gateway</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="gateway-body">
+    <div class="terminal-frame">
+        <div class="terminal-header">SECURE_AUTH // RAYTOWN_NETWORK_STABLE</div>
+        <div class="login-container">
+            <h1 class="glow-text">RAYTOWN</h1>
+            <p class="subtitle">FastTrack Node Management Terminal</p>
+            <div class="divider"></div>
+            
+            <div id="setup-fields" style="display: none;">
+                <input type="text" id="upland-ign" placeholder="ENTER OPERATOR IGN...">
+                <button class="action-btn glow-btn" onclick="enterHQ()">INITIALIZE HQ</button>
+            </div>
+
+            <div id="connect-zone">
+                <button id="connect-wallet-btn" class="action-btn" onclick="connectWallet()">CONNECT BASE WALLET</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://yjfprmwvzkydruxtogdg.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqZnBybXd2emt5ZHJ1eHRvZ2RnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4OTg0NjAsImV4cCI6MjA5MjQ3NDQ2MH0.yLwEAiFht6i65e4AVtvEJGJSfrqUGG-MbuarRK22BsU';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function connectWallet() {
+            if (window.ethereum) {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
+                document.getElementById('connect-zone').style.display = 'none';
+                document.getElementById('setup-fields').style.display = 'block';
+            } else { alert("Please use MetaMask or Coinbase Wallet."); }
+        }
+
+        async function enterHQ() {
+            const ign = document.getElementById('upland-ign').value;
+            const wallet = localStorage.getItem('fasttrack_operator_wallet');
+            if (!ign) return alert("IGN Required");
+            await supabase.from('operators').upsert({ wallet: wallet, upland_ign: ign });
+            window.location.href = 'hq.html';
+        }
+    </script>
+</body>
+</html>
