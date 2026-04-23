@@ -13,7 +13,7 @@
         
         <div id="setup-fields" style="display: none;">
             <input type="text" id="upland-ign" placeholder="Enter Upland IGN">
-            <button class="action-btn" onclick="enterHQ()">INITIALIZE HQ</button>
+            <button class="action-btn" id="initialize-btn" onclick="enterHQ()">INITIALIZE HQ</button>
         </div>
 
         <div id="connect-zone">
@@ -23,25 +23,50 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://fjbwugejjlieqqufmiya.supabase.co/rest/v1/';
+        // CLEANED URL: Removed /rest/v1/ to prevent connection errors
+        const SUPABASE_URL = 'https://fjbwugejjlieqqufmiya.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqYnd1Z2VqamxpZXFxdWZtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDExOTIsImV4cCI6MjA5MjUxNzE5Mn0.KZ0L2ds7egV2hksbNpU4bA-oCjRTsJYVOy4vlbZq3M8';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function connectWallet() {
             if (window.ethereum) {
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
-                document.getElementById('connect-zone').style.display = 'none';
-                document.getElementById('setup-fields').style.display = 'block';
-            } else { alert("Please use MetaMask or Coinbase Wallet."); }
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    localStorage.setItem('fasttrack_operator_wallet', accounts[0]);
+                    document.getElementById('connect-zone').style.display = 'none';
+                    document.getElementById('setup-fields').style.display = 'block';
+                } catch (err) {
+                    alert("Wallet connection failed: " + err.message);
+                }
+            } else { 
+                alert("Please open this link inside the MetaMask or Coinbase Wallet App Browser."); 
+            }
         }
 
         async function enterHQ() {
             const ign = document.getElementById('upland-ign').value;
             const wallet = localStorage.getItem('fasttrack_operator_wallet');
+            const btn = document.getElementById('initialize-btn');
+
             if (!ign) return alert("IGN Required");
-            await supabase.from('operators').upsert({ wallet: wallet, upland_ign: ign });
-            window.location.href = 'hq.html';
+            
+            btn.innerText = "SYNCHRONIZING...";
+            btn.disabled = true;
+
+            // Attempt to save operator to your new Supabase Vault
+            const { error } = await supabase.from('operators').upsert({ 
+                wallet: wallet, 
+                upland_ign: ign 
+            });
+
+            if (error) {
+                alert("Vault Connection Error: " + error.message);
+                btn.innerText = "INITIALIZE HQ";
+                btn.disabled = false;
+            } else {
+                // IMPORTANT: Ensure your dashboard file is named hq.html on GitHub
+                window.location.href = 'hq.html';
+            }
         }
     </script>
 </body>
